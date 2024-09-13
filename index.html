@@ -1,197 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>快点搜图-图片搜索聚合网站</title>
-  <meta name="keywords" content="快点搜图 搜图 美图 pixiv 图片搜索 P站 图片搜索神器 搜图软件 二次元图片 壁纸" />
-  <meta name="description"
-    content="快点搜图-聚合海内外知名图片搜索引擎，以图搜图引擎，一键搜索所有图片资源免费下载！更有海量丰富图库素材资源免费获取，主打二次元、插画、唯美、风景、美女壁纸，分类明细，主题齐全！满足你日常生活学习所有的用图需求！让我们一起发现美图的乐趣！" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    /* 背景样式 */
-    .background {
-      background-image: url('https://bing.img.run/uhd.php');
-      /* 示例 URL */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      /* 垂直居中 */
-      align-items: center;
-      /* 水平居中 */
-    }
-
-    /* Logo 样式 */
-    header img {
-      height: 96px;
-      margin-bottom: 48px;
-      /* 调整为适合页面的大小 */
-    }
-
-    /* 搜索框容器样式 */
-    .search-input-container {
-      position: relative;
-      /* 使内部元素可以绝对定位 */
-      display: flex;
-      align-items: center;
-      max-width: 600px;
-      /* Google 搜索框通常更宽 */
-      width: 100%;
-      border-radius: 24px;
-      /* 圆角设计 */
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      /* 轻微的阴影 */
-    }
-
-    /* 搜索框样式 */
-    .search-input {
-      width: 412px;
-      flex: 1;
-      /* 允许搜索框自动扩展 */
-      border: none;
-      padding: 16px;
-      font-size: 16px;
-      outline: none;
-      background-color: #f8f8f8;
-      /* 更柔和的背景色 */
-      border-radius: 24px;
-      /* 圆角统一 */
-      padding-left: 100px;
-      /* 为选择框预留空间 */
-      padding-right: 100px;
-      /* 为按钮预留空间 */
-    }
-
-    /* 搜索引擎选择框样式 */
-    .search-select {
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 80px;
-      /* 设置宽度 */
-      background-color: #f8f8f8;
-      /* 与搜索框背景色一致 */
-      border: none;
-      font-size: 16px;
-      border-radius: 24px 0 0 24px;
-      /* 圆角左侧 */
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-      /* 内阴影 */
-    }
-
-    /* 搜索按钮样式 */
-    .search-button {
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 100%;
-      width: 100px;
-      /* 设置宽度 */
-      background-color: #1a73e8;
-      /* Google 蓝色 */
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      border-radius: 0 24px 24px 0;
-      /* 圆角右侧 */
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-      /* 内阴影 */
-    }
-
-    /* Footer 样式 */
-    footer {
-      margin-top: 500px;
-      /* 增加一些顶部间距 */
-      text-align: center;
-      /* 水平居中 */
-      color: #f8f8f8;
-    }
-    footer a{
-      color: #f8f8f8;
-    }
-  </style>
-</head>
-
-<body class="background">
-
-  <header class="mb-12">
-    <!-- Logo -->
-    <img src="https://image.soutushenqi.com/upload_70c45d56817b8fb67c3293611ee3437e.png" alt="Logo">
-  </header>
-
-  <main class="flex flex-col items-center w-full">
-    <form id="search-form" class="w-full flex justify-center">
-      <!-- 搜索框容器 -->
-      <div class="search-input-container">
-        <!-- 搜索引擎选择框 -->
-        <select id="search-engine" class="search-select">
-          <option value="baidu">百度</option>
-          <option value="google">谷歌</option>
-          <option value="bing">必应</option>
-          <option value="yandex">雅虎</option>
-        </select>
-        <!-- 搜索框 -->
-        <input type="text" id="query" class="search-input" placeholder="请输入搜索内容">
-        <!-- 搜索按钮 -->
-        <button type="submit" class="search-button">搜索</button>
-      </div>
-    </form>
-  </main>
-
-  <footer>
-    <script type="text/javascript">
-      copyright = new Date();//取得当前的日期
-      update = copyright.getFullYear();//取得当前的年份
-      document.write("Copyright © " + update + ' <a href="https://huangetech.github.io/" title="按下“Ctrl+D”试试？"><b>欢哥科技</b></a> All rights reserved. ');
-
-  </script>
-  </footer>
-
-  <script>
-    document.getElementById('search-form').addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      const query = document.getElementById('query').value;
-      const engine = document.getElementById('search-engine').value;
-      let url;
-
-      switch (engine) {
-        case 'baidu':
-          url = `https://image.baidu.com/search/index?tn=baiduimage&word=${encodeURIComponent(query)}`;
-          break;
-        case 'google':
-          url = `https://www.google.com/search?hl=zh-CN&tbm=isch&q=${encodeURIComponent(query)}`;
-          break;
-        case 'bing':
-          url = `https://www.bing.com/images/search?q=${encodeURIComponent(query)}`;
-          break;
-        case 'yandex':
-          url = `https://yandex.com/images/search?text=${encodeURIComponent(query)}`;
-          break;
-        default:
-          url = '';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>快点搜图-图片搜索聚合网站</title>
+    <meta
+      name="keywords"
+      content="快点搜图 搜图 美图 pixiv 图片搜索 P站 图片搜索神器 搜图软件 二次元图片 壁纸"
+    />
+    <meta
+      name="description"
+      content="快点搜图-聚合海内外知名图片搜索引擎，以图搜图引擎，一键搜索所有图片资源免费下载！更有海量丰富图库素材资源免费获取，主打二次元、插画、唯美、风景、美女壁纸，分类明细，主题齐全！满足你日常生活学习所有的用图需求！让我们一起发现美图的乐趣！"
+    />
+    <link
+      href="https://cdn.jsdmirror.com/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* 背景样式 */
+      .background {
+        background-image: url("https://bing.img.run/uhd.php");
+        /* 示例 URL */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* 水平居中 */
+        overflow: hidden;
       }
 
-      if (url) {
-        window.location.href = url;
+      /* Logo 样式 */
+      header img {
+        height: 96px;
+        margin-bottom: 48px;
+        /* 调整为适合页面的大小 */
       }
-    });
-  </script>
-</body>
 
+      /* 搜索框容器样式 */
+      .search-input-container {
+        position: relative;
+        /* 使内部元素可以绝对定位 */
+        display: flex;
+        align-items: center;
+        max-width: 600px;
+        /* Google 搜索框通常更宽 */
+        width: 100%;
+        border-radius: 24px;
+        /* 圆角设计 */
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        /* 轻微的阴影 */
+      }
+
+      /* 搜索框样式 */
+      .search-input {
+        width: 412px;
+        flex: 1;
+        /* 允许搜索框自动扩展 */
+        border: none;
+        padding: 16px;
+        font-size: 16px;
+        outline: none;
+        background-color: #f8f8f8;
+        /* 更柔和的背景色 */
+        border-radius: 24px;
+        /* 圆角统一 */
+        padding-left: 100px;
+        /* 为选择框预留空间 */
+        padding-right: 100px;
+        /* 为按钮预留空间 */
+      }
+
+      /* 搜索引擎选择框样式 */
+      .search-select {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 80px;
+        /* 设置宽度 */
+        background-color: #f8f8f8;
+        /* 与搜索框背景色一致 */
+        border: none;
+        font-size: 16px;
+        border-radius: 24px 0 0 24px;
+        /* 圆角左侧 */
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        /* 内阴影 */
+      }
+
+      /* 搜索按钮样式 */
+      .search-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 100px;
+        /* 设置宽度 */
+        background-color: #1a73e8;
+        /* Google 蓝色 */
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        border-radius: 0 24px 24px 0;
+        /* 圆角右侧 */
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        /* 内阴影 */
+      }
+
+      /* Footer 样式 */
+      footer {
+        margin-top: 20rem;
+        /* 增加一些顶部间距 */
+        text-align: center;
+        /* 水平居中 */
+        color: #f8f8f8;
+      }
+      footer a {
+        color: #f8f8f8;
+      }
+      @media screen and (max-width: 750px) {
+        #search-form{
+          width: 100vw;
+        }
+      }
+      .ytst{
+    width: 536px;
+    height: fit-content;
+    background: aliceblue;
+    padding: 10px;
+    opacity: 0.5;
+    margin: 0 auto;
+    margin-top: 5px;
+    border-radius: 5px;
+      }
+    </style>
+  </head>
+
+  <body class="background">
+    <header class="mb-12 center">
+      <!-- Logo -->
+      <img
+        src="https://image.soutushenqi.com/upload_70c45d56817b8fb67c3293611ee3437e.png"
+        alt="Logo"
+      />
+    </header>
+
+    <main class="flex flex-col items-center w-full center">
+      <form id="search-form" class="w-full flex justify-center">
+        <!-- 搜索框容器 -->
+        <div class="search-input-container">
+          <!-- 搜索引擎选择框 -->
+          <select id="search-engine" class="search-select">
+            <option value="baidu">百度</option>
+            <option value="google">谷歌</option>
+            <option value="bing">必应</option>
+            <option value="yandex">雅虎</option>
+          </select>
+          <!-- 搜索框 -->
+          <input
+            type="text"
+            id="query"
+            class="search-input"
+            placeholder="请输入搜索内容"
+          />
+          <!-- 搜索按钮 -->
+          <button type="submit" class="search-button">搜索</button>
+        </div>
+      </form>
+      <form class="ytst">
+      <div class=""><p>以图搜图</p><form id="uploadForm" action="https://saucenao.com/search.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput">
+      <input type="button" id="uploadButton" value="搜一下" onClick="uploadFile()"> 
+      </form>
+    </main>
+
+    <footer>
+      <script type="text/javascript">
+        copyright = new Date(); //取得当前的日期
+        update = copyright.getFullYear(); //取得当前的年份
+        document.write(
+          "Copyright © " +
+            update +
+            ' <a href="https://huangetech.github.io/" title="按下“Ctrl+D”试试？"><b>欢哥科技</b></a> All rights reserved. '
+        );
+      </script>
+    </footer>
+
+<!-- 以图搜图 -->
+    <script>
+      function uploadFile() {
+      var uploadButton = document.getElementById('uploadButton');
+      uploadButton.disabled = true;
+      uploadButton.value = "提交中...";
+      var fileInput = document.getElementById('fileInput');
+      var uploadForm = document.getElementById('uploadForm');
+          var file = fileInput.files[0];
+          var formData = new FormData();
+          formData.append('file', file);
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                  // 处理上传成功的情况
+                  console.log(xhr.responseText);
+          uploadForm.submit();
+          //window.location.href='https://animeart.vvvxx.com/page/5/';
+          uploadButton.disabled = false;
+          uploadButton.value = "搜一下";
+              }
+        
+          };
+          xhr.open('POST', 'https://www.saucenao.cn/uploadphoto.php', true);
+          xhr.send(formData);
+      }
+  </script>
+<!-- 搜索框逻辑 -->
+    <script>
+      document
+        .getElementById("search-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const query = document.getElementById("query").value;
+          const engine = document.getElementById("search-engine").value;
+          let url;
+
+          switch (engine) {
+            case "baidu":
+              url = `https://image.baidu.com/search/index?tn=baiduimage&word=${encodeURIComponent(
+                query
+              )}`;
+              break;
+            case "google":
+              url = `https://www.google.com/search?hl=zh-CN&tbm=isch&q=${encodeURIComponent(
+                query
+              )}`;
+              break;
+            case "bing":
+              url = `https://www.bing.com/images/search?q=${encodeURIComponent(
+                query
+              )}`;
+              break;
+            case "yandex":
+              url = `https://yandex.com/images/search?text=${encodeURIComponent(
+                query
+              )}`;
+              break;
+            default:
+              url = "";
+          }
+
+          if (url) {
+            window.location.href = url;
+          }
+        });
+    </script>
+  </body>
 </html>
