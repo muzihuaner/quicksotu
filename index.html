@@ -13,9 +13,10 @@
       content="快点搜图-聚合海内外知名图片搜索引擎，以图搜图引擎，一键搜索所有图片资源免费下载！更有海量丰富图库素材资源免费获取，主打二次元、插画、唯美、风景、美女壁纸，分类明细，主题齐全！满足你日常生活学习所有的用图需求！让我们一起发现美图的乐趣！"
     />
     <link
-      href="https://cdn.jsdmirror.com/npm/tailwindcss@3.3.2/dist/tailwind.min.css"
+      href="https://cdn.jsdmirror.com/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdmirror.com/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
       /* 背景样式 */
       .background {
@@ -59,7 +60,7 @@
 
       /* 搜索框样式 */
       .search-input {
-        width: 412px;
+        width: 100vw;
         flex: 1;
         /* 允许搜索框自动扩展 */
         border: none;
@@ -133,19 +134,24 @@
         color: #f8f8f8;
       }
       @media screen and (max-width: 750px) {
-        #search-form{
+        #search-form {
           width: 100vw;
         }
       }
-      .ytst{
-    width: 536px;
-    height: fit-content;
-    background: aliceblue;
-    padding: 10px;
-    opacity: 0.5;
-    margin: 0 auto;
-    margin-top: 5px;
-    border-radius: 5px;
+      .ytst {
+        width: 536px;
+        height: fit-content;
+        background: aliceblue;
+        padding: 10px;
+        opacity: 0.5;
+        margin: 0 auto;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+      .ytstbtn {
+        margin-top: 5px;
+        display: flex;
+        justify-content: center;
       }
     </style>
   </head>
@@ -168,7 +174,7 @@
             <option value="baidu">百度</option>
             <option value="google">谷歌</option>
             <option value="bing">必应</option>
-            <option value="yandex">雅虎</option>
+            <option value="yandex">Yandex</option>
           </select>
           <!-- 搜索框 -->
           <input
@@ -181,11 +187,120 @@
           <button type="submit" class="search-button">搜索</button>
         </div>
       </form>
-      <form class="ytst">
-      <div class=""><p>以图搜图</p><form id="uploadForm" action="https://saucenao.com/search.php" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="fileInput">
-      <input type="button" id="uploadButton" value="搜一下" onClick="uploadFile()"> 
-      </form>
+      <div class="ytstbtn">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#searchModal"
+        >
+          以图搜图
+        </button>
+      </div>
+
+      <!-- 模态框 -->
+      <div
+        class="modal fade"
+        id="searchModal"
+        tabindex="-1"
+        aria-labelledby="searchModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">以图搜图</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="searchForm">
+                <input
+                  type="text"
+                  name="imageUrl"
+                  placeholder="输入图片 URL"
+                  style="width: 250px"
+                />
+                <br />
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="Google Lens"
+                    checked
+                  />Google Lens
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="TinEye"
+                  />TinEye
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="Yandex"
+                  />Yandex
+                </label>
+                <label>
+                  <input type="radio" name="searchEngine" value="Bing" />Bing
+                </label>
+                <label>
+                  <input type="radio" name="searchEngine" value="Sogou" />Sogou
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="Baidu"
+                    checked="checked"
+                  />Baidu
+                </label>
+                <label>
+                  <input type="radio" name="searchEngine" value="Trace" />Trace
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="SauceNAO"
+                  />SauceNAO
+                </label>
+                <label>
+                  <input type="radio" name="searchEngine" value="IQDB" />IQDB
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="3DIQDB"
+                  />3DIQDB
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="searchEngine"
+                    value="ascii2d"
+                  />ascii2d
+                </label>
+                <br />
+                <input
+                  type="button"
+                  id="searchButton"
+                  value="搜一下"
+                  onClick="searchImage()"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer>
@@ -199,35 +314,42 @@
         );
       </script>
     </footer>
-
-<!-- 以图搜图 -->
+    <!-- 以图搜图 -->
     <script>
-      function uploadFile() {
-      var uploadButton = document.getElementById('uploadButton');
-      uploadButton.disabled = true;
-      uploadButton.value = "提交中...";
-      var fileInput = document.getElementById('fileInput');
-      var uploadForm = document.getElementById('uploadForm');
-          var file = fileInput.files[0];
-          var formData = new FormData();
-          formData.append('file', file);
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                  // 处理上传成功的情况
-                  console.log(xhr.responseText);
-          uploadForm.submit();
-          //window.location.href='https://animeart.vvvxx.com/page/5/';
-          uploadButton.disabled = false;
-          uploadButton.value = "搜一下";
-              }
-        
-          };
-          xhr.open('POST', 'https://www.saucenao.cn/uploadphoto.php', true);
-          xhr.send(formData);
+      function searchImage() {
+        const imageUrl = document.querySelector('input[name="imageUrl"]').value;
+        const selectedEngine = document.querySelector(
+          'input[name="searchEngine"]:checked'
+        ).value;
+        const searchUrls = {
+          "Google Lens": "https://lens.google.com/uploadbyurl?url=" + imageUrl,
+          TinEye: "https://www.tineye.com/search/?url=" + imageUrl,
+          Yandex:
+            "https://yandex.com/images/search?url=" +
+            imageUrl +
+            "&rpt=imageview",
+          Bing:
+            "https://www.bing.com/images/search?q=imgurl:" +
+            imageUrl +
+            "&view=detailv2&iss=sbi",
+          Sogou:
+            "https://pic.sogou.com/ris?query=https%3A%2F%2Fimg03.sogoucdn.com%2Fv2%2Fthumb%2Fretype_exclude_gif%2Fext%2Fauto%3Fappid%3D122%26url=" +
+            imageUrl +
+            "&flag=1&drag=0",
+          Baidu:
+            "https://graph.baidu.com/details?isfromtusoupc=1&tn=pc&carousel=0&promotion_name=pc_image_shituindex&extUiData%5bisLogoShow%5d=1&image=" +
+            imageUrl,
+          Trace: "https://trace.moe/?url=" + imageUrl,
+          SauceNAO: "https://saucenao.com/search.php?db=999&url=" + imageUrl,
+          IQDB: "https://iqdb.org/?url=" + imageUrl,
+          "3DIQDB": "https://3d.iqdb.org/?url=" + imageUrl,
+          ascii2d: "https://ascii2d.net/search/url/" + imageUrl,
+        };
+        window.open(searchUrls[selectedEngine]);
       }
-  </script>
-<!-- 搜索框逻辑 -->
+    </script>
+
+    <!-- 搜索框逻辑 -->
     <script>
       document
         .getElementById("search-form")
